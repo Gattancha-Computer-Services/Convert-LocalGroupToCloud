@@ -46,10 +46,10 @@ Function Convert-LocalGroupToCloud
     # Write-host "$GroupName : $GroupID"
 
     # Now we change the sync behaviour from our On-Premise Active Directory to our Entra Tenent
-    Invoke-MgGraphRequest -Uri "https://graph.microsoft.com/beta/groups/$GroupID/onPremisesSyncBehavior" -Method PATCH -Body $Body 
+    Invoke-MgGraphRequest -Uri "https://graph.microsoft.com/v1.0/groups/$GroupID/onPremisesSyncBehavior" -Method PATCH -Body $Body 
 
     # Finallly, a quick check to ensure the change has taken effect.
-    if ( (Invoke-MgGraphRequest -Uri "https://graph.microsoft.com/beta/groups/$GroupID/onPremisesSyncBehavior?`$select=isCloudManaged").isCloudManaged -eq "True")
+    if ( (Invoke-MgGraphRequest -Uri "https://graph.microsoft.com/v1.0/groups/$GroupID/onPremisesSyncBehavior?`$select=isCloudManaged").isCloudManaged -eq "True")
     {
         Write-host "$GroupName is now Cloud Only"
     }
@@ -57,4 +57,5 @@ Function Convert-LocalGroupToCloud
     {
         Write-Warning "$GRoupName failed to become Cloud Only"
     }
+
 }
